@@ -14,7 +14,7 @@ const humanDiet = document.getElementById("diet");
 
 //Dinosaur Constructor
 function dinosaur(name, species, weight, height, diet, where, when, fact) {
-  this.name = name;
+  this.name = species;
   this.species = species;
   this.weight = weight;
   this.height = height;
