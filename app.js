@@ -23,9 +23,9 @@ function dinosaur(name, species, weight, height, diet, where, when, fact) {
   this.when = when;
   this.fact = fact;
 }
-debugger;
+//debugger;
 let height = Number(humanFeet.value) * 12 + Number(humanInches.value);
-debugger;
+//debugger;
 //Human Constructor
 function human(name, species, weight, height, diet, fact) {
   this.species = species;
@@ -63,7 +63,7 @@ fetch("dino.json")
 var myNewHuman;
 
 function createHuman() {
-  debugger;
+  //debugger;
   let compareArray = [
     compareWeight(humanWeight.value),
     compareHeight(height),
@@ -88,13 +88,13 @@ function createHuman() {
     return myMessage;
   }
   function compareHeight(height) {
-    debugger;
+    //debugger;
     let myRandNum = Math.floor(Math.random() * dinoArr.length);
     let myMessage = `You are ${
       dinoArr[myRandNum].height - height
     } inches shorter than a ${dinoArr[myRandNum].name}.`;
     // console.log("I am height");
-    debugger;
+    //debugger;
     return myMessage;
   }
   function compareDiet(humanDiet) {
