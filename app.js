@@ -1,5 +1,19 @@
-// Create Dino Constructor
-function Dino(name, species, weight, height, diet, where, when, url) {
+//getting DOM Elements
+const button = document.getElementById("btn");
+const formRef = document.getElementById("dino-compare");
+const clearScreen = (ref) => {
+  ref.remove();
+};
+
+const humanNameInput = document.getElementById("name");
+let humanName = document.getElementById("name").value;
+const humanFeet = document.getElementById("feet");
+const humanInches = document.getElementById("inches");
+const humanWeight = document.getElementById("weight");
+const humanDiet = document.getElementById("diet");
+
+//Dinosaur Constructor
+function dinosaur(name, species, weight, height, diet, where, when, fact) {
   this.name = name;
   this.species = species;
   this.weight = weight;
@@ -7,132 +21,118 @@ function Dino(name, species, weight, height, diet, where, when, url) {
   this.diet = diet;
   this.where = where;
   this.when = when;
-  this.url = url;
+  this.fact = fact;
+}
+debugger;
+let height = Number(humanFeet.value) * 12 + Number(humanInches.value);
+debugger;
+//Human Constructor
+function human(name, species, weight, height, diet, fact) {
+  this.species = species;
+  this.fact = fact;
+  this.name = name;
+  this.weight = weight;
+  this.height = height;
+  this.diet = diet;
 }
 
-// Create Dino Objects
-const dinos = [];
+let compareWeight;
 
-// Fetch JSON data to populate into local JS script
+//Pulling dino info from json
+var dinoArr = [];
 fetch("dino.json")
-  .then((response) => response.json())
+  .then((response) => {
+    return response.json();
+  })
   .then((data) => {
-    for (const dino of data) {
-      dinos.push(
-        new Dino(
-          dino.name,
-          dino.species,
-          dino.weight,
-          dino.height,
-          dino.diet,
-          dino.where,
-          dino.when,
-          dino.url
-        )
+    data.Dinos.forEach((dino) => {
+      let dinoObj = new dinosaur(
+        dino.name,
+        dino.species,
+        dino.weight,
+        dino.height,
+        dino.diet,
+        dino.where,
+        dino.when,
+        dino.fact
       );
-    }
-
-    // Create Human Object
-    // Use IIFE to get human data from form
-    const human = (function () {
-      const form = document.querySelector("form");
-      const nameInput = form.querySelector("#name");
-      const heightInput = form.querySelector("#height");
-      const weightInput = form.querySelector("#weight");
-
-      return {
-        name: nameInput.value,
-        height: heightInput.value,
-        weight: weightInput.value,
-      };
-    })();
-
-    // Create Dino Compare Method 1
-    function compareWeight(dino1, dino2) {
-      return dino1.weight - dino2.weight;
-    }
-    // NOTE: Weight in JSON file is in lbs, height in inches.
-
-    // Create Dino Compare Method 2
-    function compareHeight(dino1, dino2) {
-      return dino1.height - dino2.height;
-    }
-    // NOTE: Weight in JSON file is in lbs, height in inches.
-
-    // Create Dino Compare Method 3
-    function compareDiet(dino1, dino2) {
-      return dino1.diet.localeCompare(dino2.diet);
-    }
-    // NOTE: Weight in JSON file is in lbs, height in inches.
-
-    // Generate Tiles for each Dino in Array
-    function generateTiles() {
-      const tileContainer = document.querySelector("#tile-container");
-
-      for (const dino of dinos) {
-        const tile = document.createElement("div");
-        tile.classList.add("tile");
-
-        const image = document.createElement("img");
-        image.src = dino.url;
-        tile.appendChild(image);
-
-        const name = document.createElement("h3");
-        name.textContent = dino.name;
-        tile.appendChild(name);
-
-        tileContainer.appendChild(tile);
-      }
-    }
-
-    // Add tiles to DOM
-    generateTiles();
-
-    // Remove form from screen
-    const form = document.querySelector("form");
-    form.remove();
-
-    // On button click, prepare and display infographic
-    const button = document.querySelector("#button");
-    button.addEventListener("click", function () {
-      // Prepare infographic data
-      const infographicData = {
-        human: human,
-        dinos: dinos,
-      };
-
-      // Display infographic
-      displayInfographic(infographicData);
+      dinoArr.push(dinoObj);
     });
   });
 
-// Display infographic
-function displayInfographic(infographicData) {
-  // Get infographic elements
-  const infographicContainer = document.querySelector("#infographic-container");
-  const humanName = document.querySelector("#human-name");
-  const humanHeight = document.querySelector("#human-height");
-  const humanWeight = document.querySelector("#human-weight");
-  const dinoTable = document.querySelector("#dino-table");
+var myNewHuman;
 
-  // Update infographic data
-  humanName.textContent = infographicData.human.name;
-  humanHeight.textContent = infographicData.human.height;
-  humanWeight.textContent = infographicData.human.weight;
+function createHuman() {
+  debugger;
+  let compareArray = [
+    compareWeight(humanWeight.value),
+    compareHeight(height),
+    compareDiet(humanDiet.value),
+  ];
+  const compareRandomNumber = Math.floor(Math.random() * compareArray.length);
 
-  // Clear dino table
-  dinoTable.innerHTML = "";
+  myNewHuman = new human(
+    humanName,
+    "human",
+    humanWeight.value,
+    height,
+    humanDiet.value,
+    compareArray[compareRandomNumber]
+  );
+  function compareWeight(humanWeight) {
+    let myRandNum = Math.floor(Math.random() * dinoArr.length);
+    let myMessage = `You are ${
+      dinoArr[myRandNum].weight - humanWeight
+    } pounds lighter than a ${dinoArr[myRandNum].name}.`;
+    // console.log("I am weight");
+    return myMessage;
+  }
+  function compareHeight(height) {
+    debugger;
+    let myRandNum = Math.floor(Math.random() * dinoArr.length);
+    let myMessage = `You are ${
+      dinoArr[myRandNum].height - height
+    } inches shorter than a ${dinoArr[myRandNum].name}.`;
+    // console.log("I am height");
+    debugger;
+    return myMessage;
+  }
+  function compareDiet(humanDiet) {
+    let myRandNum = Math.floor(Math.random() * dinoArr.length);
+    let myMessage = `You're a ${humanDiet} while ${dinoArr[myRandNum].name} is a ${dinoArr[myRandNum].diet}.`;
+    // console.log("I am diet");
+    return myMessage;
+  }
+  console.log(height);
+  // console.log(compareRand)
+}
 
-  // Add dinos to dino table
-  for (const dino of infographicData.dinos) {
-    const row = document.createElement("tr");
+// compareWeight(humanWeight.value)
 
-    const nameCell = document.createElement("td");
-    nameCell.textContent = dino.name;
-    row.appendChild(nameCell);
-
-    const weightCell = document.createElement("td");
-    weightCell.textContent = dino.weight;
-    row.appendChild(weightCell);
+//Creating Tiles
+function populateTiles() {
+  clearScreen(formRef);
+  dinoArr.splice(4, 0, myNewHuman);
+  for (let i = 0; i < dinoArr.length; i++) {
+    const tile = document.createElement("div");
+    tile.className = "grid-item";
+    tile.innerHTML = `<h2>${dinoArr[i].name}</h2> <img src="images/${dinoArr[
+      i
+    ].species.toLowerCase()}.png"/> <h3>${dinoArr[i].fact}</h3>`;
+    document.querySelector("#grid").appendChild(tile);
   }
 }
+
+humanNameInput.addEventListener("change", (event) => {
+  console.log(event.target.value);
+  humanName = event.target.value;
+  // humanData = getHumanData();
+});
+
+//It's a button
+button.addEventListener("click", () => {
+  createHuman();
+  populateTiles();
+  console.log(humanName);
+  // alert(humanName);
+});
