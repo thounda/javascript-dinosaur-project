@@ -53,4 +53,4 @@ You can use the `addEventListener()` method to add an event listener to the subm
 
 Once your code is working properly, you should refactor it. Refactoring is the process of improving the code without changing its functionality. You can refactor your code by making it more readable, efficient, and maintainable.
 
-9. **To preview the final version of my actual for this assignment online, go to . https://github.com/thounda/javascript-dinosaur-project**
+9. **To preview the final version of my actual for this assignment online, go to - https://niconcepts.com/examples/dinosaur-js-project/ and https://github.com/thounda/javascript-dinosaur-project**
